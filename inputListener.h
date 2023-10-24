@@ -8,11 +8,11 @@
 #ifndef INPUT_LISTENER
 
 #define INPUT_LISTENER
-uint8_t btnPowerPin = 9;
-uint8_t btnPins[] = {10,11,12,13};
 
-bool canInput = false;
-bool oldBtnVals[] = {false,false,false,false};
+extern uint8_t btnPowerPin;
+extern uint8_t btnPins[];
+extern bool canInput;
+extern bool oldBtnVals[];
 
 void InputSetup();
 void EnableInputIndicators();

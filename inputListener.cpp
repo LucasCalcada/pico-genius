@@ -1,5 +1,11 @@
 #include "inputListener.h"
 
+uint8_t btnPowerPin = 9;
+uint8_t btnPins[] = {13,12,11,10};
+
+bool canInput = false;
+bool oldBtnVals[] = {false,false,false,false};
+
 // Input pin setup
 void InputSetup(){
     for(uint8_t pin : btnPins){

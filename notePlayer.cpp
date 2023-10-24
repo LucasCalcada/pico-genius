@@ -1,5 +1,8 @@
 #include "notePlayer.h"
 
+uint8_t tonePin = 8;
+uint16_t badNoteSequence[] = {};
+uint16_t goodNoteSequence[] = {};
 
 // Sets up buzzer pin
 void NotePlayerSetup(){

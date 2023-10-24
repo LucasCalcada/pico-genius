@@ -2,6 +2,15 @@
 #include "notePlayer.h"
 #include "inputListener.h"
 
+uint8_t sequence[256];
+int turn = 1;
+int sequenceStep = 0;
+// Flags
+bool canPlay = true;
+// Feedback setup
+int tones[] = {0,0,0,0};
+uint8_t ledPins[] = {4,5,6,7};
+
 // Sets up all required pins
 void GameSetup(){
     InputSetup();

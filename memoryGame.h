@@ -9,15 +9,13 @@
 
 #define MEMORY_GAME_H
 // Sequence management
-uint8_t sequence[256];
-int turn = 1;
-int sequenceStep = 0;
+extern int turn;
+extern int sequenceStep;
 // Flags
-bool canPlay = true;
+extern bool canPlay;
 // Feedback setup
-uint8_t tonePin = 0;
-int tones[] = {0,0,0,0};
-uint8_t ledPins[] = {4,5,6,7};
+extern int tones[];
+extern uint8_t ledPins[];
 
 void GameSetup();
 void GameLoop();

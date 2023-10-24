@@ -9,9 +9,9 @@
 
 #define NOTE_PLAYER_H
 
-uint8_t tonePin = 0;
-uint16_t badNoteSequence[] = {};
-uint16_t goodNoteSequence[] = {};
+extern uint8_t tonePin;
+extern uint16_t badNoteSequence[];
+extern uint16_t goodNoteSequence[];
 
 void NotePlayerSetup();
 void PlayNote(uint32_t,uint16_t=500);
