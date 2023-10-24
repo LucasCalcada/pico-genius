@@ -1,5 +1,12 @@
 #include "inputListener.h"
 
+// Input pin setup
+void InputSetup(){
+    for(uint8_t pin : btnPins){
+        pinMode(pin,INPUT);
+    }
+}
+
 // Enable button power
 void EnableInputIndicators(){
     digitalWrite(btnPowerPin,HIGH);

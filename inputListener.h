@@ -14,6 +14,7 @@ uint8_t btnPins[] = {10,11,12,13};
 bool canInput = false;
 bool oldBtnVals[] = {false,false,false,false};
 
+void InputSetup();
 void EnableInputIndicators();
 void DisableInputIndicators();
 void BtnInputListener(void (*callback)(uint8_t));
