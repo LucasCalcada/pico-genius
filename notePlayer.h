@@ -14,7 +14,7 @@ uint16_t badNoteSequence[] = {};
 uint16_t goodNoteSequence[] = {};
 
 void NotePlayerSetup();
-void PlayNote(uint32_t,uint16_t);
+void PlayNote(uint32_t,uint16_t=500);
 void BadTune();
 void GoodTune();
 

@@ -11,13 +11,14 @@ void GameSetup(){
     }
 }
 
-// Plays LED sequence
+// Plays LED/Tone sequence
 void PlaySequence(){
  	if(!canPlay)return;
     for(int i = 0; i < turn; i++){
         int ledPin = sequence[i];	
         digitalWrite(ledPins[ledPin], HIGH);
         delay(1000);
+        PlayNote(tones[ledPin]);
         digitalWrite(ledPins[ledPin], LOW);
         delay(500);
     }
@@ -28,8 +29,8 @@ void PlaySequence(){
 // Increases sequence size and assigns a new number to the end of it
 void ExpandSequence(){
     uint8_t randInt = random(4);
-    sequence[turn] = randInt;
-    sequenceStep = 0;
+    sequence[turn] = randInt; // Assigns new number to the end of the sequence
+    sequenceStep = 0; // Resets guess sequence counter
     turn++;
     canInput = false;
     canPlay = true;
@@ -39,26 +40,28 @@ void ExpandSequence(){
 void BtnPress(uint8_t index){
     if(sequence[sequenceStep] == index){
         sequenceStep++;
-        if(sequenceStep ==  turn - 1) ExpandSequence();
+        PlayNote(tones[sequence[sequenceStep]]); // Plays correct button sound
+        delay(100);
+        if(sequenceStep ==  turn - 1){
+            GoodTune(); // Plays turn won sound
+            ExpandSequence(); // Increases sequence size and restart
+        }
         return;
     }
     GameOver();
 }
 
+// Game loop logic
 void GameLoop(){
     PlaySequence();
     BtnInputListener(BtnPress);
 }
 
-uint32_t gameOverTune[] = {};
+// Game over logic
 void GameOver(){
+    BadTune(); // Plays gameover sound
+    // Restarts game
     sequenceStep = 0;
-    for(int t : gameOverTune){
-        tone(tonePin, t, 500);
-    }
-    ExpandSequence();
-
-    // limpar sequencia
-    // Som fim de jogo
-    // Recomeçar
+    turn = 0;
+    ExpandSequence(); 
 }
