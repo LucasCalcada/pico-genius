@@ -18,7 +18,7 @@ class inputListenerClass{
         void InputSetup();
         void EnableInputIndicators();
         void DisableInputIndicators();
-        void BtnInputListener(void (*callback)(uint8_t));
+        int8_t BtnInputListener();
         bool canInput = false;
 };
 #endif

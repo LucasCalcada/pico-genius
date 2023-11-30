@@ -2,7 +2,6 @@
 
 #define ARDUINO_H
 #include "Arduino.h"
-
 #endif
 
 #pragma once

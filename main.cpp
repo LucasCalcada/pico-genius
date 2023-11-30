@@ -1,10 +1,13 @@
 #include "Arduino.h"
+#include "game.hpp"
 #include "memoryGame.h"
 
+MemoryGame game;
 void setup(){
-    GameSetup();
+    game = MemoryGame();
+    game.GameSetup();
 }
 
 void loop(){
-    GameLoop();
+    game.GameLoop();
 }

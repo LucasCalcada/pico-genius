@@ -29,16 +29,16 @@ void inputListenerClass::DisableInputIndicators(){
 }
 
 // Read button input
-void inputListenerClass::BtnInputListener(void (*callback)(uint8_t)){
-    if(!canInput) return;
+int8_t inputListenerClass::BtnInputListener(){
+    if(!canInput) return -1;
     for(uint8_t i = 0; i < 4; i++){
         bool press = digitalRead(btnPins[i]);
-        //Serial.print(i);
         
         if(!oldBtnVals[i] && press){
-            callback(i);
-            Serial.print(i);
+            oldBtnVals[i] = press;
+            return i;
         }
         oldBtnVals[i] = press;
     }
+    return -1;
 }

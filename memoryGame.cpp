@@ -1,34 +1,38 @@
 #include "memoryGame.h"
-#include "notePlayer.h"
-#include "inputListener.hpp"
+#include "game.hpp"
 
-uint8_t sequence[256];
-int turn = 1;
-int sequenceStep = 0;
-inputListenerClass inputListener;
+
+//uint8_t sequence[256];
+//int turn = 1;
+//int sequenceStep = 0;
 // Flags
-bool canPlay = true;
+//bool canPlay = true;
 // Feedback setup
 int tones[] = {523,587,659,698};
 uint8_t ledPins[] = {4,5,6,7};
 
 // Sets up all required pins
-void GameSetup(){
+void MemoryGame::GameSetup(){
     Serial.begin(9600);
+
+    inputListener = inputListenerClass();
     inputListener.InputSetup();
-    NotePlayerSetup();
+
+    notePlayer = NotePlayer();
+    notePlayer.Setup();
+
     for(uint8_t pin : ledPins){
         pinMode(pin,OUTPUT);
     }
 }
 
 // Plays LED/Tone sequence
-void PlaySequence(){
+void MemoryGame::PlaySequence(){
  	if(!canPlay)return;
     for(int i = 0; i < turn; i++){
         int ledPin = sequence[i];	
         digitalWrite(ledPins[ledPin], HIGH);
-        PlayNote(tones[ledPin]);
+        notePlayer.PlayNote(tones[ledPin]);
         delay(500);
         digitalWrite(ledPins[ledPin], LOW);
         delay(500);
@@ -38,7 +42,7 @@ void PlaySequence(){
 }
 
 // Increases sequence size and assigns a new number to the end of it
-void ExpandSequence(){
+void MemoryGame::ExpandSequence(){
     uint8_t randInt = random(4);
     sequence[turn] = randInt; // Assigns new number to the end of the sequence
     sequenceStep = 0; // Resets guess sequence counter
@@ -48,13 +52,14 @@ void ExpandSequence(){
 }
 
 // Button press behavior
-void BtnPress(uint8_t index){
+void MemoryGame::BtnPress(uint8_t index){
     if(sequence[sequenceStep] == index){
         sequenceStep++;
-        PlayNote(tones[sequence[sequenceStep]]); // Plays correct button sound
+        // Plays correct button sound
+        notePlayer.PlayNote(tones[sequence[sequenceStep]]);
         delay(100);
         if(sequenceStep ==  turn - 1){
-            GoodTune(); // Plays turn won sound
+            notePlayer.GoodTune(); // Plays turn won sound
             ExpandSequence(); // Increases sequence size and restart
         }
         return;
@@ -65,14 +70,17 @@ void BtnPress(uint8_t index){
 }
 
 // Game loop logic
-void GameLoop(){
+void MemoryGame::GameLoop(){
     PlaySequence();
-    inputListener.BtnInputListener(BtnPress);
+    int8_t input = inputListener.BtnInputListener();
+    if(input != -1){
+        BtnPress(input);
+    }
 }
 
 // Game over logic
-void GameOver(){
-    BadTune(); // Plays gameover sound
+void MemoryGame::GameOver(){
+    notePlayer.BadTune(); // Plays gameover sound
     // Restarts game
     sequenceStep = 0;
     turn = 0;
