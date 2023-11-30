@@ -1,16 +1,6 @@
 #include "memoryGame.h"
 #include "game.hpp"
 
-
-//uint8_t sequence[256];
-//int turn = 1;
-//int sequenceStep = 0;
-// Flags
-//bool canPlay = true;
-// Feedback setup
-int tones[] = {523,587,659,698};
-uint8_t ledPins[] = {4,5,6,7};
-
 // Sets up all required pins
 void MemoryGame::GameSetup(){
     Serial.begin(9600);
