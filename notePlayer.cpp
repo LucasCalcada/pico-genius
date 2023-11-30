@@ -6,6 +6,9 @@ uint16_t NotePlayer::badNoteSequence[] = {0,0,0,0};
 NotePlayer::NotePlayer(){
 
 }
+NotePlayer::~NotePlayer(){
+
+}
 // Sets up buzzer pin
 void NotePlayer::Setup(){
     pinMode(tonePin,OUTPUT);
