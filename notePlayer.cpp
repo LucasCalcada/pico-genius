@@ -1,31 +1,33 @@
-#include "notePlayer.h"
+#include "notePlayer.hpp"
 
-uint8_t tonePin = 8;
-uint16_t badNoteSequence[] = {};
-uint16_t goodNoteSequence[] = {};
+uint16_t NotePlayer::goodNoteSequence[] = {0,0,0,0};
+uint16_t NotePlayer::badNoteSequence[] = {0,0,0,0};
 
+NotePlayer::NotePlayer(){
+
+}
 // Sets up buzzer pin
-void NotePlayerSetup(){
+void NotePlayer::Setup(){
     pinMode(tonePin,OUTPUT);
 }
 
 // Plays a note on the buzzer
-void PlayNote(uint32_t note, uint16_t duration = 500){
-    tone(tonePin, note, duration);
+void NotePlayer::PlayNote(uint32_t note){
+    tone(tonePin, note, toneLength);
 }
 
 // Positive audio feedback
-void GoodTune(){
+void NotePlayer::GoodTune(){
     for(uint16_t note : goodNoteSequence){
-        tone(tonePin,note,500);
+        tone(tonePin,note,toneLength);
         delay(100);
     }
 }
 
 // Negative audio feedback
-void BadTune(){
+void NotePlayer::BadTune(){
     for(uint16_t note : badNoteSequence){
-        tone(tonePin,note,500);
+        tone(tonePin,note,toneLength);
         delay(100);
     }
 }
