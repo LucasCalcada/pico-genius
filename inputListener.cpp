@@ -1,35 +1,43 @@
-#include "inputListener.h"
+#include "inputListener.hpp"
 
-uint8_t btnPowerPin = 9;
-uint8_t btnPins[] = {13,12,11,10};
+// Constructor Method
+inputListenerClass::inputListenerClass(){
+    btnPins[0] = 0;
+    btnPins[1] = 0;
+    btnPins[2] = 0;
+    btnPins[3] = 0;
+}
+// Destructor Method
+inputListenerClass::~inputListenerClass(){
 
-bool canInput = false;
-bool oldBtnVals[] = {false,false,false,false};
-
+}
 // Input pin setup
-void InputSetup(){
-    for(uint8_t pin : btnPins){
+void inputListenerClass::InputSetup(){
+    for(uint8_t pin : inputListenerClass::btnPins){
         pinMode(pin,INPUT);
     }
 }
 
 // Enable button power
-void EnableInputIndicators(){
+void inputListenerClass::EnableInputIndicators(){
     digitalWrite(btnPowerPin,HIGH);
 }
 
 // Disable button power
-void DisableInputIndicators(){
+void inputListenerClass::DisableInputIndicators(){
     digitalWrite(btnPowerPin,LOW);
 }
 
 // Read button input
-void BtnInputListener(void (*callback)(uint8_t)){
+void inputListenerClass::BtnInputListener(void (*callback)(uint8_t)){
     if(!canInput) return;
     for(uint8_t i = 0; i < 4; i++){
         bool press = digitalRead(btnPins[i]);
+        //Serial.print(i);
+        
         if(!oldBtnVals[i] && press){
             callback(i);
+            Serial.print(i);
         }
         oldBtnVals[i] = press;
     }
