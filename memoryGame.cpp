@@ -1,19 +1,21 @@
 #include "memoryGame.h"
 #include "notePlayer.h"
-#include "inputListener.h"
+#include "inputListener.hpp"
 
 uint8_t sequence[256];
 int turn = 1;
 int sequenceStep = 0;
+inputListenerClass inputListener;
 // Flags
 bool canPlay = true;
 // Feedback setup
-int tones[] = {0,0,0,0};
+int tones[] = {523,587,659,698};
 uint8_t ledPins[] = {4,5,6,7};
 
 // Sets up all required pins
 void GameSetup(){
-    InputSetup();
+    Serial.begin(9600);
+    inputListener.InputSetup();
     NotePlayerSetup();
     for(uint8_t pin : ledPins){
         pinMode(pin,OUTPUT);
@@ -26,13 +28,13 @@ void PlaySequence(){
     for(int i = 0; i < turn; i++){
         int ledPin = sequence[i];	
         digitalWrite(ledPins[ledPin], HIGH);
-        delay(1000);
         PlayNote(tones[ledPin]);
+        delay(500);
         digitalWrite(ledPins[ledPin], LOW);
         delay(500);
     }
     canPlay = false;
-    canInput = true;
+    inputListener.canInput = true;
 }
 
 // Increases sequence size and assigns a new number to the end of it
@@ -41,7 +43,7 @@ void ExpandSequence(){
     sequence[turn] = randInt; // Assigns new number to the end of the sequence
     sequenceStep = 0; // Resets guess sequence counter
     turn++;
-    canInput = false;
+    inputListener.canInput = false;
     canPlay = true;
 }
 
@@ -57,13 +59,15 @@ void BtnPress(uint8_t index){
         }
         return;
     }
-    GameOver();
+    else{
+        GameOver();
+    }
 }
 
 // Game loop logic
 void GameLoop(){
     PlaySequence();
-    BtnInputListener(BtnPress);
+    inputListener.BtnInputListener(BtnPress);
 }
 
 // Game over logic
