@@ -1,9 +1,21 @@
-#include "memoryGame.h"
-#include "game.hpp"
+#include "memoryGame.hpp"
 
+MemoryGame::MemoryGame(){
+    turn = 1;
+    sequenceStep = 0;
+    canPlay = true;
+}
+MemoryGame::~MemoryGame(){
+
+}
 // Sets up all required pins
 void MemoryGame::GameSetup(){
-    Serial.begin(9600);
+    Serial.println("Game setup");
+    Serial.println("Led Pins:");
+    for(uint8_t pin : ledPins){
+        Serial.println(pin);
+        pinMode(pin,OUTPUT);
+    }
 
     inputListener = inputListenerClass();
     inputListener.InputSetup();
@@ -11,16 +23,16 @@ void MemoryGame::GameSetup(){
     notePlayer = NotePlayer();
     notePlayer.Setup();
 
-    for(uint8_t pin : ledPins){
-        pinMode(pin,OUTPUT);
-    }
 }
 
 // Plays LED/Tone sequence
 void MemoryGame::PlaySequence(){
  	if(!canPlay)return;
+    Serial.println("Playing Sequence");
     for(int i = 0; i < turn; i++){
+        Serial.println(sequence[i]);
         int ledPin = sequence[i];	
+        Serial.println(ledPins[ledPin]);
         digitalWrite(ledPins[ledPin], HIGH);
         notePlayer.PlayNote(tones[ledPin]);
         delay(500);
@@ -33,6 +45,7 @@ void MemoryGame::PlaySequence(){
 
 // Increases sequence size and assigns a new number to the end of it
 void MemoryGame::ExpandSequence(){
+    Serial.println("Expanding Sequence");
     uint8_t randInt = random(4);
     sequence[turn] = randInt; // Assigns new number to the end of the sequence
     sequenceStep = 0; // Resets guess sequence counter
@@ -43,6 +56,7 @@ void MemoryGame::ExpandSequence(){
 
 // Button press behavior
 void MemoryGame::BtnPress(uint8_t index){
+    Serial.println("Button pressed");
     if(sequence[sequenceStep] == index){
         sequenceStep++;
         // Plays correct button sound
@@ -61,7 +75,9 @@ void MemoryGame::BtnPress(uint8_t index){
 
 // Game loop logic
 void MemoryGame::GameLoop(){
-    PlaySequence();
+    if(canPlay){
+        PlaySequence();
+    }
     int8_t input = inputListener.BtnInputListener();
     if(input != -1){
         BtnPress(input);

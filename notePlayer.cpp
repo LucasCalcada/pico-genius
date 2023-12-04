@@ -12,6 +12,7 @@ NotePlayer::~NotePlayer(){
 // Sets up buzzer pin
 void NotePlayer::Setup(){
     pinMode(tonePin,OUTPUT);
+    Serial.println("Note Player setup");
 }
 
 // Plays a note on the buzzer

@@ -17,36 +17,23 @@ class MemoryGame:public Game{
     void GameSetup();
     void GameLoop();
     void GameOver();
+    MemoryGame();
+    ~MemoryGame();
 
     private:
     void BtnPress(uint8_t index);
     void PlaySequence();
     void ExpandSequence();
 
-    int turn = 1;
-    int sequenceStep = 0;
-    bool canPlay = true;
+    int turn;
+    int sequenceStep;
+    bool canPlay;
     int tones[5];
-    uint8_t ledPins[5];
+    uint8_t ledPins[4];
     uint8_t sequence[256];
 
     inputListenerClass inputListener;
     NotePlayer notePlayer;
 };
-// Sequence management
-// extern int turn;
-// extern int sequenceStep;
-// Flags
-// extern bool canPlay;
-// Feedback setup
-// extern int tones[];
-// extern uint8_t ledPins[];
-
-// void GameSetup();
-// void GameLoop();
-// void PlaySequence();
-// void ExpandSequence();
-// void BtnPress(uint8_t index);
-// void GameOver();
 
 #endif

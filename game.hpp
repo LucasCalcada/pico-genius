@@ -5,7 +5,7 @@
 
 #pragma once
 class Game{
-    private:
+    protected:
     static int tones[];
     static uint8_t ledPins[];
     public:

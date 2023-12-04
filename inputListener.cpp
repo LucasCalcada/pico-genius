@@ -13,6 +13,7 @@ inputListenerClass::~inputListenerClass(){
 }
 // Input pin setup
 void inputListenerClass::InputSetup(){
+    Serial.println("Input listener setup");
     for(uint8_t pin : inputListenerClass::btnPins){
         pinMode(pin,INPUT);
     }
