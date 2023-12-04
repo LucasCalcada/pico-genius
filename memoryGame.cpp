@@ -1,4 +1,6 @@
 #include "memoryGame.hpp"
+#include "constants.hpp"
+#include "notePlayer.hpp"
 
 MemoryGame::MemoryGame(){
     turn = 1;
@@ -19,10 +21,6 @@ void MemoryGame::GameSetup(){
 
     inputListener = inputListenerClass();
     inputListener.InputSetup();
-
-    notePlayer = NotePlayer();
-    notePlayer.Setup();
-
 }
 
 // Plays LED/Tone sequence
@@ -30,11 +28,13 @@ void MemoryGame::PlaySequence(){
  	if(!canPlay)return;
     Serial.println("Playing Sequence");
     for(int i = 0; i < turn; i++){
-        Serial.println(sequence[i]);
         int ledPin = sequence[i];	
+
+        Serial.println(ledPin);
         Serial.println(ledPins[ledPin]);
+
         digitalWrite(ledPins[ledPin], HIGH);
-        notePlayer.PlayNote(tones[ledPin]);
+        PlayNote(tones[ledPin]);
         delay(500);
         digitalWrite(ledPins[ledPin], LOW);
         delay(500);
@@ -60,10 +60,11 @@ void MemoryGame::BtnPress(uint8_t index){
     if(sequence[sequenceStep] == index){
         sequenceStep++;
         // Plays correct button sound
-        notePlayer.PlayNote(tones[sequence[sequenceStep]]);
+        PlayNote(tones[sequence[sequenceStep]]);
+
         delay(100);
         if(sequenceStep ==  turn - 1){
-            notePlayer.GoodTune(); // Plays turn won sound
+            GoodTune(); // Plays turn won sound
             ExpandSequence(); // Increases sequence size and restart
         }
         return;
@@ -86,7 +87,7 @@ void MemoryGame::GameLoop(){
 
 // Game over logic
 void MemoryGame::GameOver(){
-    notePlayer.BadTune(); // Plays gameover sound
+    BadTune(); // Plays gameover sound
     // Restarts game
     sequenceStep = 0;
     turn = 0;
