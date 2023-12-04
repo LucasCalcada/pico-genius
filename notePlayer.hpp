@@ -1,10 +1,7 @@
-#ifndef ARDUINO_H
-#define ARDUINO_H
 #include "Arduino.h"
-#endif
-
+#include "constants.hpp"
 #pragma once
-
 void PlayNote(int);
 void BadTune();
 void GoodTune();
+void picoTone(int,unsigned long int);
