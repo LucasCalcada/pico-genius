@@ -1,6 +1,4 @@
 #include "memoryGame.hpp"
-#include "constants.hpp"
-#include "notePlayer.hpp"
 
 MemoryGame::MemoryGame(){
     turn = 1;
@@ -19,6 +17,7 @@ void MemoryGame::GameSetup(){
         pinMode(pin,OUTPUT);
     }
 
+    sequence[0] = random(4);
     inputListener = inputListenerClass();
     inputListener.InputSetup();
 }

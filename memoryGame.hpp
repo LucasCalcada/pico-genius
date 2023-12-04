@@ -1,16 +1,10 @@
 //#include "game.hpp"
+#include "Arduino.h"
+#include "constants.hpp"
 #include "notePlayer.hpp"
 #include "inputListener.hpp"
-#ifndef ARDUINO_H
 
-#define ARDUINO_H
-#include "Arduino.h"
-
-#endif
-
-#ifndef MEMORY_GAME_H
-
-#define MEMORY_GAME_H
+#pragma once
 
 class MemoryGame{
     public:
@@ -32,5 +26,3 @@ class MemoryGame{
 
     inputListenerClass inputListener;
 };
-
-#endif
