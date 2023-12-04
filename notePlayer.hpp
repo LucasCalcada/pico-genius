@@ -5,20 +5,6 @@
 
 #pragma once
 
-class NotePlayer{
-    private:
-    // Buzzer Pin
-    uint8_t tonePin = 0;
-    // Note length in ms
-    int toneLength = 500;
-    // Note sequence feedback
-    static uint16_t badNoteSequence[];
-    static uint16_t goodNoteSequence[];
-    public:
-    NotePlayer();
-    ~NotePlayer();
-    void Setup();
-    void PlayNote(uint32_t);
-    void BadTune();
-    void GoodTune();
-};
+void PlayNote(int);
+void BadTune();
+void GoodTune();

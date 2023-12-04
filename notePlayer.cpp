@@ -1,27 +1,19 @@
+#include "constants.hpp"
 #include "notePlayer.hpp"
 
-uint16_t NotePlayer::goodNoteSequence[] = {0,0,0,0};
-uint16_t NotePlayer::badNoteSequence[] = {0,0,0,0};
-
-NotePlayer::NotePlayer(){
-
-}
-NotePlayer::~NotePlayer(){
-
-}
-// Sets up buzzer pin
-void NotePlayer::Setup(){
-    pinMode(tonePin,OUTPUT);
-    Serial.println("Note Player setup");
-}
-
 // Plays a note on the buzzer
-void NotePlayer::PlayNote(uint32_t note){
+void PlayNote(int note){
+    Serial.println("Playing note ");
+    Serial.print(note);
     tone(tonePin, note, toneLength);
+    delay(100);
+    noTone(tonePin);
+    delay(100);
+    Serial.print("Finished playing note");
 }
 
 // Positive audio feedback
-void NotePlayer::GoodTune(){
+void GoodTune(){
     for(uint16_t note : goodNoteSequence){
         tone(tonePin,note,toneLength);
         delay(100);
@@ -29,7 +21,7 @@ void NotePlayer::GoodTune(){
 }
 
 // Negative audio feedback
-void NotePlayer::BadTune(){
+void BadTune(){
     for(uint16_t note : badNoteSequence){
         tone(tonePin,note,toneLength);
         delay(100);
