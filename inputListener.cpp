@@ -2,14 +2,18 @@
 
 // Constructor Method
 inputListenerClass::inputListenerClass(){
-    Serial.println("Input listener setup");
-    for(uint8_t pin : btnPins){
-        pinMode(pin,INPUT_PULLDOWN);
-    }
+    
 }
 // Destructor Method
 inputListenerClass::~inputListenerClass(){
 
+}
+
+void inputListenerClass::Setup(){
+    Serial.println("Input listener setup");
+    for(uint8_t pin : btnPins){
+        pinMode(pin,INPUT_PULLDOWN);
+    }
 }
 
 // Read button input

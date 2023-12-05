@@ -2,6 +2,7 @@
 
 void ResponseTimeGame::GameSetup(){
     inputListener = inputListenerClass();
+    inputListener.Setup();
 }
 
 void ResponseTimeGame::GameLoop(){

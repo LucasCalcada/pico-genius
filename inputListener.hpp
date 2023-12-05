@@ -11,4 +11,5 @@ class inputListenerClass{
         void ButtonDebugger();
         bool IsAnyButtonPressed();
         int8_t BtnInputListener();
+        void Setup();
 };

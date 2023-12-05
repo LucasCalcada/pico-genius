@@ -6,7 +6,7 @@
 MemoryGame game;
 inputListenerClass inputListener;
 void setup(){
-    Serial.begin(9600);
+    //Serial.begin(9600);
     //while(!Serial); //Wait for serial port to boot
     pinMode(tonePin,OUTPUT);
     Serial.println("Hello World");
@@ -15,6 +15,7 @@ void setup(){
     // Indicates boot
     Serial.println("Finished Setup");
     inputListener = inputListenerClass();
+    inputListener.Setup();
 }
 
 void loop(){
