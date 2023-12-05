@@ -1,8 +1,7 @@
 #include "memoryGame.hpp"
 
 MemoryGame::MemoryGame(){
-    turn = 1;
-    sequenceStep = 0;
+    turn = 0;
     canPlay = true;
 }
 MemoryGame::~MemoryGame(){
@@ -16,10 +15,9 @@ void MemoryGame::GameSetup(){
         Serial.println(pin);
         pinMode(pin,OUTPUT);
     }
-
-    sequence[0] = random(4);
     inputListener = inputListenerClass();
     inputListener.InputSetup();
+    ExpandSequence();
 }
 
 // Plays LED/Tone sequence
@@ -33,13 +31,12 @@ void MemoryGame::PlaySequence(){
         Serial.println(ledPins[ledPin]);
 
         digitalWrite(ledPins[ledPin], HIGH);
-        PlayNote(tones[ledPin]);
+        PlayNote(notes[ledPin]);
         delay(500);
         digitalWrite(ledPins[ledPin], LOW);
         delay(500);
     }
     canPlay = false;
-    inputListener.canInput = true;
 }
 
 // Increases sequence size and assigns a new number to the end of it
@@ -47,29 +44,15 @@ void MemoryGame::ExpandSequence(){
     Serial.println("Expanding Sequence");
     uint8_t randInt = random(4);
     sequence[turn] = randInt; // Assigns new number to the end of the sequence
-    sequenceStep = 0; // Resets guess sequence counter
     turn++;
-    inputListener.canInput = false;
     canPlay = true;
+    DebugTurn();
 }
 
-// Button press behavior
-void MemoryGame::BtnPress(uint8_t index){
-    Serial.println("Button pressed");
-    if(sequence[sequenceStep] == index){
-        sequenceStep++;
-        // Plays correct button sound
-        PlayNote(tones[sequence[sequenceStep]]);
-
-        delay(100);
-        if(sequenceStep ==  turn - 1){
-            GoodTune(); // Plays turn won sound
-            ExpandSequence(); // Increases sequence size and restart
-        }
-        return;
-    }
-    else{
-        GameOver();
+void MemoryGame::DebugTurn(){
+    Serial.println("Sequence:");
+    for(uint8_t s: sequence){
+        Serial.println(s);
     }
 }
 
@@ -77,18 +60,31 @@ void MemoryGame::BtnPress(uint8_t index){
 void MemoryGame::GameLoop(){
     if(canPlay){
         PlaySequence();
-    }
-    int8_t input = inputListener.BtnInputListener();
-    if(input != -1){
-        BtnPress(input);
+    }else{
+        for (int i = 0; i < turn; i++)
+        {
+            sequenceStep = i;
+            int8_t input = inputListener.BtnInputListener();
+            if(sequence[sequenceStep] != input){
+                GameOver();
+                return;
+            }else{
+                digitalWrite(ledPins[input],HIGH);
+                PlayNote(notes[input]);
+                digitalWrite(ledPins[input],LOW);
+            }
+
+        }
+        GoodTune(); // Plays turn won sound
+        ExpandSequence(); // Increases sequence size and restart
     }
 }
 
 // Game over logic
 void MemoryGame::GameOver(){
+    Serial.println("Game over");
     BadTune(); // Plays gameover sound
     // Restarts game
-    sequenceStep = 0;
     turn = 0;
     ExpandSequence(); 
 }

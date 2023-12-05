@@ -15,14 +15,14 @@ class MemoryGame{
     ~MemoryGame();
 
     private:
-    void BtnPress(uint8_t index);
     void PlaySequence();
     void ExpandSequence();
+    void DebugTurn();
 
     int turn;
     int sequenceStep;
     bool canPlay;
-    uint8_t sequence[256];
+    int8_t sequence[256];
 
     inputListenerClass inputListener;
 };

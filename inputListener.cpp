@@ -2,10 +2,7 @@
 
 // Constructor Method
 inputListenerClass::inputListenerClass(){
-    btnPins[0] = 0;
-    btnPins[1] = 0;
-    btnPins[2] = 0;
-    btnPins[3] = 0;
+    
 }
 // Destructor Method
 inputListenerClass::~inputListenerClass(){
@@ -14,8 +11,8 @@ inputListenerClass::~inputListenerClass(){
 // Input pin setup
 void inputListenerClass::InputSetup(){
     Serial.println("Input listener setup");
-    for(uint8_t pin : inputListenerClass::btnPins){
-        pinMode(pin,INPUT);
+    for(uint8_t pin : btnPins){
+        pinMode(pin,INPUT_PULLDOWN);
     }
 }
 
@@ -31,15 +28,29 @@ void inputListenerClass::DisableInputIndicators(){
 
 // Read button input
 int8_t inputListenerClass::BtnInputListener(){
-    if(!canInput) return -1;
-    for(uint8_t i = 0; i < 4; i++){
-        bool press = digitalRead(btnPins[i]);
-        
-        if(!oldBtnVals[i] && press){
+    //Serial.println("Reading input");
+    while(true){
+        for(uint8_t i = 0; i < 4; i++){
+            bool press = digitalRead(btnPins[i]);
+            if(!oldBtnVals[i] && press){
+                oldBtnVals[i] = press;
+                return i;
+            }
             oldBtnVals[i] = press;
-            return i;
         }
-        oldBtnVals[i] = press;
+        delay(50);
     }
-    return -1;
+}
+
+void inputListenerClass::ButtonDebugger(){
+    Serial.println("");
+    for(uint8_t i = 0; i < 4; i++){
+            bool press = digitalRead(btnPins[i]);
+            if(press){
+                Serial.print(1);
+            }
+            else{
+                Serial.print(0);
+            }
+        }
 }

@@ -12,14 +12,14 @@ const float noteG4 = 392.00;
 const float noteA4 = 440.00;
 const float noteB4 = 493.88;
 
-const float tones[] = {noteC4,noteE4,noteG4,noteB4};
+const float notes[] = {noteC4,noteE4,noteG4,noteB4};
 const uint8_t tonePin = 15;
 // Note length in ms
 const int toneLength = 500;
 // Note sequence feedback
-const int badNoteSequence[] = {};
-const int goodNoteSequence[] = {};
+const float badNoteSequence[] = {noteE4,noteD4,noteC4};
+const float goodNoteSequence[] = {noteC4, noteD4, noteE4};
 
 // ---------- Input Listener --------
 const uint8_t btnPowerPin = 0;
-const uint8_t btnPins[] = {24,25,26,27};
+const uint8_t btnPins[] = {18,19,20,21};
