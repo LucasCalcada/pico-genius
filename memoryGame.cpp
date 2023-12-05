@@ -26,10 +26,6 @@ void MemoryGame::PlaySequence(){
     Serial.println("Playing Sequence");
     for(int i = 0; i < turn; i++){
         int ledPin = sequence[i];	
-
-        Serial.println(ledPin);
-        Serial.println(ledPins[ledPin]);
-
         digitalWrite(ledPins[ledPin], HIGH);
         PlayNote(notes[ledPin]);
         delay(500);
@@ -42,6 +38,7 @@ void MemoryGame::PlaySequence(){
 // Increases sequence size and assigns a new number to the end of it
 void MemoryGame::ExpandSequence(){
     Serial.println("Expanding Sequence");
+    randomSeed(analogRead(0));
     uint8_t randInt = random(4);
     sequence[turn] = randInt; // Assigns new number to the end of the sequence
     turn++;
@@ -51,9 +48,10 @@ void MemoryGame::ExpandSequence(){
 
 void MemoryGame::DebugTurn(){
     Serial.println("Sequence:");
-    for(uint8_t s: sequence){
-        Serial.println(s);
+    for(int i = 0; i < turn; i++){
+        Serial.print(sequence[i]);
     }
+    Serial.println("\n");
 }
 
 // Game loop logic
