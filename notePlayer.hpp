@@ -4,4 +4,4 @@
 void PlayNote(int);
 void BadTune();
 void GoodTune();
-void picoTone(int,unsigned long int);
+void picoTone(float,unsigned long int);

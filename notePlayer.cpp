@@ -1,23 +1,22 @@
 #include "notePlayer.hpp"
-#include "pwm.h"
 
-
-// Same as Arduino tone() but works on the pico
-void picoTone(int note, unsigned long int length){
+// Plays a tone on the pico
+void picoTone(float note, unsigned long int length){
     unsigned long StartTime = millis();
+    float interval = (1000.0 * 1000.0) / (note * 2);
+    Serial.println(interval);
     while(millis() - StartTime < length){
-        float interval = 1000 / note;
         digitalWrite(tonePin,HIGH);
-        delay(interval/2);
+        delayMicroseconds((int)interval);
         digitalWrite(tonePin,LOW);
-        delay(interval/2);
+        delayMicroseconds((int)interval);
     }
 }
 // Plays a note on the buzzer
-void PlayNote(int note){
+void PlayNote(float note){
     Serial.println("Playing note ");
     Serial.print(note);
-    picoTone(tonePin, note, toneLength);
+    picoTone(note, 500);
     Serial.println("Finished playing note");
     delay(100);
 }
@@ -25,7 +24,7 @@ void PlayNote(int note){
 // Positive audio feedback
 void GoodTune(){
     for(int note : goodNoteSequence){
-        picoTone(tonePin,note,toneLength);
+        picoTone(note,500);
         delay(100);
     }
 }
@@ -33,7 +32,7 @@ void GoodTune(){
 // Negative audio feedback
 void BadTune(){
     for(int note : badNoteSequence){
-        picoTone(tonePin,note,toneLength);
+        picoTone(note,500);
         delay(100);
     }
 }
