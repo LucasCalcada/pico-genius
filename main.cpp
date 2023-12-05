@@ -7,7 +7,7 @@ MemoryGame game;
 inputListenerClass inputListener;
 void setup(){
     Serial.begin(9600);
-    while(!Serial); //Wait for serial port to boot
+    //while(!Serial); //Wait for serial port to boot
     pinMode(tonePin,OUTPUT);
     Serial.println("Hello World");
     game = MemoryGame();

@@ -16,7 +16,6 @@ void MemoryGame::GameSetup(){
         pinMode(pin,OUTPUT);
     }
     inputListener = inputListenerClass();
-    inputListener.InputSetup();
     ExpandSequence();
 }
 
