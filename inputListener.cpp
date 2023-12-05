@@ -2,28 +2,14 @@
 
 // Constructor Method
 inputListenerClass::inputListenerClass(){
-    
-}
-// Destructor Method
-inputListenerClass::~inputListenerClass(){
-
-}
-// Input pin setup
-void inputListenerClass::InputSetup(){
     Serial.println("Input listener setup");
     for(uint8_t pin : btnPins){
         pinMode(pin,INPUT_PULLDOWN);
     }
 }
+// Destructor Method
+inputListenerClass::~inputListenerClass(){
 
-// Enable button power
-void inputListenerClass::EnableInputIndicators(){
-    digitalWrite(btnPowerPin,HIGH);
-}
-
-// Disable button power
-void inputListenerClass::DisableInputIndicators(){
-    digitalWrite(btnPowerPin,LOW);
 }
 
 // Read button input
@@ -53,4 +39,13 @@ void inputListenerClass::ButtonDebugger(){
                 Serial.print(0);
             }
         }
+}
+
+bool isAnyButtonPressed(){
+    for(uint8_t i = 0; i < 4; i++){
+        if(digitalRead(btnPins[i])){
+            return true;
+        }
+    }
+    return true;
 }

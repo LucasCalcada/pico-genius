@@ -8,9 +8,7 @@ class inputListenerClass{
     public:
         inputListenerClass();
         ~inputListenerClass();
-        void InputSetup();
-        void EnableInputIndicators();
         void ButtonDebugger();
-        void DisableInputIndicators();
+        bool IsAnyButtonPressed();
         int8_t BtnInputListener();
 };
