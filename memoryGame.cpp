@@ -15,7 +15,6 @@ void MemoryGame::GameSetup(){
         Serial.println(pin);
         pinMode(pin,OUTPUT);
     }
-    inputListener = inputListenerClass();
     ExpandSequence();
 }
 
@@ -61,7 +60,9 @@ void MemoryGame::GameLoop(){
         for (int i = 0; i < turn; i++)
         {
             sequenceStep = i;
-            int8_t input = inputListener.BtnInputListener();
+            int8_t input = BtnInputListener();
+            Serial.print("Button pressed");
+            Serial.print(input);
             if(sequence[sequenceStep] != input){
                 GameOver();
                 return;
@@ -84,4 +85,19 @@ void MemoryGame::GameOver(){
     // Restarts game
     turn = 0;
     ExpandSequence(); 
+}
+
+int8_t MemoryGame::BtnInputListener(){
+    //Serial.println("Reading input");
+    while(true){
+        for(uint8_t i = 0; i < 4; i++){
+            bool press = digitalRead(btnPins[i]);
+            if(!oldBtnVals[i] && press){
+                oldBtnVals[i] = press;
+                return i;
+            }
+            oldBtnVals[i] = press;
+        }
+        delay(50);
+    }
 }

@@ -11,9 +11,6 @@ inputListenerClass::~inputListenerClass(){
 
 void inputListenerClass::Setup(){
     Serial.println("Input listener setup");
-    for(uint8_t pin : btnPins){
-        pinMode(pin,INPUT_PULLDOWN);
-    }
 }
 
 // Read button input
@@ -33,7 +30,6 @@ int8_t inputListenerClass::BtnInputListener(){
 }
 
 void inputListenerClass::ButtonDebugger(){
-    Serial.println("");
     for(uint8_t i = 0; i < 4; i++){
             bool press = digitalRead(btnPins[i]);
             if(press){
@@ -43,13 +39,14 @@ void inputListenerClass::ButtonDebugger(){
                 Serial.print(0);
             }
         }
+    Serial.println("");
 }
 
-bool isAnyButtonPressed(){
+bool inputListenerClass::IsAnyButtonPressed(){
     for(uint8_t i = 0; i < 4; i++){
         if(digitalRead(btnPins[i])){
             return true;
         }
     }
-    return true;
+    return false;
 }

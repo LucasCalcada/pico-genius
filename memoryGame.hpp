@@ -15,6 +15,7 @@ class MemoryGame{
     ~MemoryGame();
 
     private:
+    int8_t BtnInputListener();
     void PlaySequence();
     void ExpandSequence();
     void DebugTurn();
@@ -24,5 +25,5 @@ class MemoryGame{
     bool canPlay;
     int8_t sequence[256];
 
-    inputListenerClass inputListener;
+    bool oldBtnVals[4];
 };

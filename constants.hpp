@@ -17,8 +17,8 @@ const uint8_t tonePin = 15;
 // Note length in ms
 const int toneLength = 500;
 // Note sequence feedback
-const float badNoteSequence[] = {noteE4,noteD4,noteC4};
-const float goodNoteSequence[] = {noteC4, noteD4, noteE4};
+const float badNoteSequence[] = {noteF4,noteD4,noteC4};
+const float goodNoteSequence[] = {noteF4, noteF4};
 
 // ---------- Input Listener --------
 const uint8_t btnPowerPin = 0;

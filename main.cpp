@@ -2,27 +2,43 @@
 #include "constants.hpp"
 #include "memoryGame.hpp"
 #include "inputListener.hpp"
+#include "responseTime.hpp"
 
-MemoryGame game;
-inputListenerClass inputListener;
+MemoryGame memoryGame;
+ResponseTimeGame responseTime;
+bool reactionGameMode = false;
+
 void setup(){
-    //Serial.begin(9600);
-    //while(!Serial); //Wait for serial port to boot
+    for(uint8_t pin: btnPins){
+        pinMode(pin,INPUT_PULLDOWN);
+    }
     pinMode(tonePin,OUTPUT);
+
+    //Serial.begin(9600);
+    //while(!Serial); //Waits for serial port 
+
+    reactionGameMode = digitalRead(btnPins[0]);
+
+    if(reactionGameMode){
+        responseTime = ResponseTimeGame();
+        responseTime.GameSetup();
+    }else{
+        memoryGame = MemoryGame();
+        memoryGame.GameSetup();
+    }
+    memoryGame = MemoryGame();
+    memoryGame.GameSetup();
     Serial.println("Hello World");
-    game = MemoryGame();
-    game.GameSetup();
-    // Indicates boot
+
     Serial.println("Finished Setup");
-    inputListener = inputListenerClass();
-    inputListener.Setup();
 }
 
 void loop(){
-    //Serial.println("Loop iteration");
-    game.GameLoop();
-    //int8_t press = inputListener.BtnInputListener();
-    //Serial.print(press);
-    //inputListener.ButtonDebugger();
+    if(reactionGameMode){
+        responseTime.GameLoop();
+    }else{
+        memoryGame.GameLoop();
+    }
+    //memoryGame.GameLoop();
     delay(100);
 }

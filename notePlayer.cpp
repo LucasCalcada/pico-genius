@@ -3,7 +3,7 @@
 // Plays a tone on the pico
 void picoTone(float note, unsigned long int length){
     unsigned long StartTime = millis();
-    float interval = (1000.0 * 1000.0) / (note * 2);
+    float interval = (1000.0 * 1000.0) / (note * 2.0);
     while(millis() - StartTime < length){
         digitalWrite(tonePin,HIGH);
         delayMicroseconds((int)interval);
@@ -19,14 +19,25 @@ void PlayNote(float note){
 
 // Positive audio feedback
 void GoodTune(){
-    for(int note : goodNoteSequence){
-        picoTone(note,200);
+    Serial.println("Good Tune");
+    for(float note : goodNoteSequence){
+        picoTone(note,300);
+        delay(50);
     }
 }
 
 // Negative audio feedback
 void BadTune(){
-    for(int note : badNoteSequence){
+    for(uint8_t pin: ledPins){
+        digitalWrite(pin,HIGH);
+    }
+    Serial.print("Bad Tune");
+        for(float note : badNoteSequence){
         picoTone(note,200);
+        delay(50);
+    }
+    for(uint8_t pin: ledPins){
+    
+        digitalWrite(pin,LOW);
     }
 }

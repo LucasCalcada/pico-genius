@@ -13,6 +13,6 @@ class ResponseTimeGame{
     private:
     void ChooseBtn();
     inputListenerClass inputListener;
-    uint8_t currentBtn = 0;
+    int8_t currentBtn = 0;
     bool canPress = false;
 };
